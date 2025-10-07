@@ -6,6 +6,7 @@ class FeatureFlagsDefinitions(models.Model):
     """
     Model to store the feature flags definitions.
     """
+
     definitions = models.JSONField()
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
@@ -15,4 +16,4 @@ class FeatureFlagsDefinitions(models.Model):
         verbose_name_plural = _("Feature Flags Definitions")
 
     def __str__(self):
-        return f"Feature Flags Definitions"
+        return "Feature Flags Definitions"
