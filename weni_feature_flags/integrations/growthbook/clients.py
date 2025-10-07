@@ -1,6 +1,6 @@
-from growthbook import GrowthBook
+# from growthbook import GrowthBook
 
-from weni_feature_flags.models import FeatureFlagsDefinitions
+# from weni_feature_flags.models import FeatureFlagsDefinitions
 from weni_feature_flags.settings import get_setting
 
 DEFAULT_DEFINITIONS_CACHE_TTL = 300  # 5 minutes
