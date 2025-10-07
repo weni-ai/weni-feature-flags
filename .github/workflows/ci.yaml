@@ -1,0 +1,46 @@
+name: Python application.
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip poetry
+          poetry config virtualenvs.create false --local
+          poetry install
+
+      # - name: Run migrations
+      #   run: python manage.py migrate
+
+      - name: run flake8
+        run: flake8
+
+      - name: run black
+        run: black .
+
+      - name: run isort
+        run: isort .
+
+      # - name: Run tests
+      #   run: coverage run manage.py test --verbosity=2 --noinput
+
+      # - name: Coverage report
+      #   run: coverage report -m
