@@ -14,3 +14,14 @@ def get_setting(name: str, is_required: bool = False, default_value: Any = None)
         raise ImproperlyConfigured(f"Setting {name} is required")
 
     return setting
+
+
+DEFAULT_DEFINITIONS_CACHE_TTL = 300  # 5 minutes
+
+GROWTHBOOK_CLIENT_KEY = get_setting("GROWTHBOOK_CLIENT_KEY", is_required=True)
+GROWTHBOOK_HOST = get_setting("GROWTHBOOK_HOST", is_required=True)
+GROWTHBOOK_DEFINITIONS_CACHE_TTL = get_setting(
+    "GROWTHBOOK_DEFINITIONS_CACHE_TTL",
+    is_required=False,
+    default_value=DEFAULT_DEFINITIONS_CACHE_TTL,
+)
