@@ -1,8 +1,11 @@
 # from growthbook import GrowthBook
 
+import requests
+
+
 from weni_feature_flags.integrations.settings import (
     GROWTHBOOK_CLIENT_KEY,
-    GROWTHBOOK_DEFINITIONS_CACHE_TTL,
+    GROWTHBOOK_REQUESTS_TIMEOUT,
     GROWTHBOOK_HOST,
 )
 
@@ -13,10 +16,26 @@ class GrowthBookClient:
     """
 
     def __init__(self):
-        self.api_key = GROWTHBOOK_CLIENT_KEY
+        self.client_key = GROWTHBOOK_CLIENT_KEY
         self.host = GROWTHBOOK_HOST
-        self.definitions_cache_ttl = GROWTHBOOK_DEFINITIONS_CACHE_TTL
+        self.timeout = GROWTHBOOK_REQUESTS_TIMEOUT
 
     def get_definitions(self):
-        # TODO
-        pass
+        """
+        Get feature flags definitions from GrowthBook API.
+        """
+
+        url = f"{self.host}/api/features/{self.client_key}"
+
+        try:
+            response = requests.get(url, timeout=self.timeout)
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            raise requests.exceptions.RequestException(
+                "Error getting feature flags definitions from GrowthBook API: %s", e
+            )
+
+        response = response.json()
+        features = response.get("features", {})
+
+        return features
