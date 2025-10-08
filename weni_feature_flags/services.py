@@ -121,3 +121,18 @@ class FeatureFlagsService:
                 active_features.append(feature)
 
         return active_features
+
+    def evaluate_feature_flag_by_attributes(
+        self, key: str, attributes: dict
+    ) -> bool:
+        """
+        Evaluate feature flag by attributes.
+        """
+        features = self.get_features()
+
+        gb = GrowthBook(
+            attributes=attributes,
+            features=features,
+        )
+
+        return gb.eval_feature(key).on
