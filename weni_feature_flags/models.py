@@ -2,18 +2,18 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
-class FeatureFlagsDefinitions(models.Model):
+class FeatureFlagSnapshot(models.Model):
     """
-    Model to store the feature flags definitions.
+    Model used to store a snapshot of the feature flags.
     """
 
-    definitions = models.JSONField()
+    data = models.JSONField()
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = _("Feature Flags Definitions")
-        verbose_name_plural = _("Feature Flags Definitions")
+        verbose_name = _("Feature Flags Snapshot")
+        verbose_name_plural = _("Feature Flags Snapshot")
 
     def __str__(self):
-        return "Feature Flags Definitions"
+        return "Feature Flags Snapshot"

@@ -17,7 +17,7 @@ def get_setting(name: str, is_required: bool = False, default_value: Any = None)
 
 
 # Default
-DEFAULT_DEFINITIONS_CACHE_TTL = 60  # 1 minute
+DEFAULT_FEATURES_CACHE_TTL = 60  # 1 minute
 
 # GrowthBook
 GROWTHBOOK_CLIENT_KEY = get_setting("GROWTHBOOK_CLIENT_KEY", is_required=True)
@@ -31,8 +31,8 @@ GROWTHBOOK_REQUESTS_TIMEOUT = get_setting(
 CACHE_KEY_PREFIX = get_setting(
     "CACHE_KEY_PREFIX", is_required=False, default_value="weni_feature_flags"
 )
-FEATURE_FLAGS_DEFINITIONS_CACHE_TTL = get_setting(
-    "FEATURE_FLAGS_DEFINITIONS_CACHE_TTL",
+FEATURES_CACHE_TTL = get_setting(
+    "FEATURES_CACHE_TTL",
     is_required=False,
-    default_value=DEFAULT_DEFINITIONS_CACHE_TTL,
+    default_value=DEFAULT_FEATURES_CACHE_TTL,
 )

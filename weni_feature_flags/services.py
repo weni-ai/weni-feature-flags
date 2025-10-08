@@ -1,27 +1,28 @@
 from django.core.cache import cache
 import json
 from typing import Optional
+from growthbook import GrowthBook
 
 
 from weni_feature_flags.integrations.growthbook.clients import GrowthBookClient
 from weni_feature_flags.integrations.settings import (
     CACHE_KEY_PREFIX,
-    FEATURE_FLAGS_DEFINITIONS_CACHE_TTL,
+    FEATURES_CACHE_TTL,
 )
-from weni_feature_flags.models import FeatureFlagsDefinitions
-from weni_feature_flags.tasks import update_feature_flags_definitions
+from weni_feature_flags.models import FeatureFlagSnapshot
+from weni_feature_flags.tasks import update_feature_flags
 
 
-CACHE_KEY = f"{CACHE_KEY_PREFIX}:definitions"
+CACHE_KEY = f"{CACHE_KEY_PREFIX}:features"
 
 
 class FeatureFlagsService:
     def __init__(self, growthbook_client: GrowthBookClient = GrowthBookClient()):
         self.growthbook_client = growthbook_client
 
-    def _get_definitions_from_cache(self) -> dict:
+    def _get_features_from_cache(self) -> dict:
         """
-        Get feature flags definitions from cache.
+        Get feature flags features from cache.
         """
 
         data = cache.get(CACHE_KEY)
@@ -37,69 +38,86 @@ class FeatureFlagsService:
 
         return data
 
-    def _save_definitions_to_cache(self, definitions: dict):
+    def _save_features_to_cache(self, features: dict):
         """
-        Save feature flags definitions to cache.
+        Save feature flags features to cache.
         """
         cache.set(
             CACHE_KEY,
-            json.dumps(definitions, ensure_ascii=False),
-            FEATURE_FLAGS_DEFINITIONS_CACHE_TTL,
+            json.dumps(features, ensure_ascii=False),
+            FEATURES_CACHE_TTL,
         )
 
-    def _get_definitions_db_object(self) -> Optional[FeatureFlagsDefinitions]:
+    def _get_features_db_object(self) -> Optional[FeatureFlagSnapshot]:
         """
-        Get feature flags definitions from the database.
+        Get feature flags snapshot from the database.
         """
-        return FeatureFlagsDefinitions.objects.order_by("created_at").last()
+        return FeatureFlagSnapshot.objects.order_by("created_at").last()
 
-    def _get_definitions_from_db(self) -> Optional[dict]:
+    def _get_features_from_db(self) -> Optional[dict]:
         """
-        Get feature flags definitions from the database.
+        Get feature flags snapshot's data from the database.
         """
-        obj = self._get_definitions_db_object()
+        obj = self._get_features_db_object()
 
-        return obj.definitions if obj else None
+        return obj.data if obj else None
 
-    def _save_definitions_to_db(
-        self, definitions: dict
-    ) -> Optional[FeatureFlagsDefinitions]:
+    def _save_features_to_db(self, data: dict) -> Optional[FeatureFlagSnapshot]:
         """
-        Save feature flags definitions to the database.
+        Save feature flags snapshot's data to the database.
         """
-        obj = self._get_definitions_db_object()
+        obj = self._get_features_db_object()
 
         if obj:
-            obj.definitions = definitions
-            obj.save(update_fields=["definitions"])
+            obj.data = data
+            obj.save(update_fields=["data"])
         else:
-            FeatureFlagsDefinitions.objects.create(definitions=definitions)
+            FeatureFlagSnapshot.objects.create(data=data)
 
         return obj
 
-    def get_definitions(self) -> dict:
+    def get_features(self) -> dict:
         """
-        Get feature flags definitions.
+        Get feature flags.
         """
-        if definitions_from_cache := self._get_definitions_from_cache():
-            return definitions_from_cache
+        if features_from_cache := self._get_features_from_cache():
+            return features_from_cache
 
-        definitions_from_db = self._get_definitions_from_db()
+        features_from_db = self._get_features_from_db()
 
-        if definitions_from_db:
-            update_feature_flags_definitions.delay()
+        if features_from_db:
+            update_feature_flags.delay()
 
-            return definitions_from_db.definitions
+            return features_from_db
 
-        return self.update_definitions()
+        return self.update_features()
 
-    def update_definitions(self):
+    def update_features(self):
         """
-        Update feature flags definitions.
+        Update feature flags.
         """
-        definitions = self.growthbook_client.get_definitions()
+        features = self.growthbook_client.get_features()
 
-        self._save_definitions_to_db(definitions)
-        self._save_definitions_to_cache(definitions)
+        self._save_features_to_db(features)
+        self._save_features_to_cache(features)
 
-        return definitions
+        return features
+
+    def get_active_feature_flags_for_attributes(self, attributes: dict) -> dict:
+        """
+        Get feature flags for attributes.
+        """
+        features = self.get_features()
+
+        gb = GrowthBook(
+            attributes=attributes,
+            features=features,
+        )
+
+        active_features: list[str] = []
+
+        for feature in features:
+            if gb.is_on(feature):
+                active_features.append(feature)
+
+        return active_features

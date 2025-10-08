@@ -11,16 +11,16 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='FeatureFlagsDefinitions',
+            name='FeatureFlagSnapshot',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('definitions', models.JSONField()),
+                ('data', models.JSONField()),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('modified_at', models.DateTimeField(auto_now=True)),
             ],
             options={
-                'verbose_name': 'Feature Flags Definitions',
-                'verbose_name_plural': 'Feature Flags Definitions',
+                'verbose_name': 'Feature Flags Snapshot',
+                'verbose_name_plural': 'Feature Flags Snapshot',
             },
         ),
     ]

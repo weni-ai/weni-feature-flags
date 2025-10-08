@@ -1,5 +1,3 @@
-# from growthbook import GrowthBook
-
 import requests
 
 
@@ -20,7 +18,7 @@ class GrowthBookClient:
         self.host = GROWTHBOOK_HOST
         self.timeout = GROWTHBOOK_REQUESTS_TIMEOUT
 
-    def get_definitions(self):
+    def get_features(self):
         """
         Get feature flags definitions from GrowthBook API.
         """
