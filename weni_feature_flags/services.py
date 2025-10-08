@@ -37,43 +37,69 @@ class FeatureFlagsService:
 
         return data
 
-    def get_definitions(self) -> dict:
+    def _save_definitions_to_cache(self, definitions: dict):
         """
-        Get feature flags definitions.
+        Save feature flags definitions to cache.
         """
-        if cached_data := self._get_definitions_from_cache():
-            return cached_data
-
-        definitions_object: Optional[
-            FeatureFlagsDefinitions
-        ] = FeatureFlagsDefinitions.objects.order_by("created_at").last()
-
-        if definitions_object:
-            update_feature_flags_definitions.delay()
-
-            return definitions_object.definitions
-
-        return self.update_definitions()
-
-    def update_definitions(self):
-        definitions = self.growthbook_client.get_definitions()
-
-        definitions_object = FeatureFlagsDefinitions.objects.order_by(
-            "created_at"
-        ).last()
-
-        if not definitions_object:
-            definitions_object = FeatureFlagsDefinitions.objects.create(
-                definitions=definitions
-            )
-        else:
-            definitions_object.definitions = definitions
-            definitions_object.save(update_fields=["definitions"])
-
         cache.set(
             CACHE_KEY,
             json.dumps(definitions, ensure_ascii=False),
             FEATURE_FLAGS_DEFINITIONS_CACHE_TTL,
         )
+
+    def _get_definitions_db_object(self) -> Optional[FeatureFlagsDefinitions]:
+        """
+        Get feature flags definitions from the database.
+        """
+        return FeatureFlagsDefinitions.objects.order_by("created_at").last()
+
+    def _get_definitions_from_db(self) -> Optional[dict]:
+        """
+        Get feature flags definitions from the database.
+        """
+        obj = self._get_definitions_db_object()
+
+        return obj.definitions if obj else None
+
+    def _save_definitions_to_db(
+        self, definitions: dict
+    ) -> Optional[FeatureFlagsDefinitions]:
+        """
+        Save feature flags definitions to the database.
+        """
+        obj = self._get_definitions_db_object()
+
+        if obj:
+            obj.definitions = definitions
+            obj.save(update_fields=["definitions"])
+        else:
+            FeatureFlagsDefinitions.objects.create(definitions=definitions)
+
+        return obj
+
+    def get_definitions(self) -> dict:
+        """
+        Get feature flags definitions.
+        """
+        if definitions_from_cache := self._get_definitions_from_cache():
+            return definitions_from_cache
+
+        definitions_from_db = self._get_definitions_from_db()
+
+        if definitions_from_db:
+            update_feature_flags_definitions.delay()
+
+            return definitions_from_db.definitions
+
+        return self.update_definitions()
+
+    def update_definitions(self):
+        """
+        Update feature flags definitions.
+        """
+        definitions = self.growthbook_client.get_definitions()
+
+        self._save_definitions_to_db(definitions)
+        self._save_definitions_to_cache(definitions)
 
         return definitions
