@@ -103,7 +103,7 @@ class FeatureFlagsService:
 
         return features
 
-    def get_active_feature_flags_for_attributes(self, attributes: dict) -> dict:
+    def get_active_feature_flags_for_attributes(self, attributes: dict) -> list[str]:
         """
         Get feature flags for attributes.
         """
