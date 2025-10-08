@@ -25,3 +25,5 @@ GROWTHBOOK_DEFINITIONS_CACHE_TTL = get_setting(
     is_required=False,
     default_value=DEFAULT_DEFINITIONS_CACHE_TTL,
 )
+
+CACHE_KEY_PREFIX = get_setting("CACHE_KEY_PREFIX", is_required=False, default_value="weni_feature_flags")

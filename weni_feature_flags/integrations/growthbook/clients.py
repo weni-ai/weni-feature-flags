@@ -16,3 +16,7 @@ class GrowthBookClient:
         self.api_key = GROWTHBOOK_CLIENT_KEY
         self.host = GROWTHBOOK_HOST
         self.definitions_cache_ttl = GROWTHBOOK_DEFINITIONS_CACHE_TTL
+
+    def get_definitions(self):
+        # TODO
+        pass
