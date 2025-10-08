@@ -122,9 +122,7 @@ class FeatureFlagsService:
 
         return active_features
 
-    def evaluate_feature_flag_by_attributes(
-        self, key: str, attributes: dict
-    ) -> bool:
+    def evaluate_feature_flag_by_attributes(self, key: str, attributes: dict) -> bool:
         """
         Evaluate feature flag by attributes.
         """
