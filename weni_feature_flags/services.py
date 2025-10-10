@@ -1,8 +1,8 @@
-from django.core.cache import cache
 import json
 from typing import Optional
-from growthbook import GrowthBook
 
+from django.core.cache import cache
+from growthbook import GrowthBook
 
 from weni_feature_flags.integrations.growthbook.clients import GrowthBookClient
 from weni_feature_flags.integrations.settings import (
@@ -11,7 +11,6 @@ from weni_feature_flags.integrations.settings import (
 )
 from weni_feature_flags.models import FeatureFlagSnapshot
 from weni_feature_flags.tasks import update_feature_flags
-
 
 CACHE_KEY = f"{CACHE_KEY_PREFIX}:features"
 

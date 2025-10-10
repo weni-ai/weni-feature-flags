@@ -1,5 +1,7 @@
 from uuid import UUID
+
 from weni_feature_flags.services import FeatureFlagsService
+from weni_feature_flags.validators import is_email_valid
 
 
 def is_feature_active_for_attributes(key: str, attributes: dict) -> bool:
@@ -22,7 +24,7 @@ def is_feature_active(key: str, user_email: str, project_uuid: UUID) -> bool:
     if not isinstance(project_uuid, UUID):
         raise ValueError("project_uuid must be a valid UUID")
 
-    if not isinstance(user_email, str):
+    if not is_email_valid(user_email):
         raise ValueError("user_email must be a valid email")
 
     return is_feature_active_for_attributes(

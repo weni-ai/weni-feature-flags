@@ -1,10 +1,9 @@
 import requests
 
-
 from weni_feature_flags.integrations.settings import (
     GROWTHBOOK_CLIENT_KEY,
-    GROWTHBOOK_REQUESTS_TIMEOUT,
     GROWTHBOOK_HOST,
+    GROWTHBOOK_REQUESTS_TIMEOUT,
 )
 
 
