@@ -7,6 +7,7 @@ if not settings.configured:
         GROWTHBOOK_CLIENT_KEY="test-client-key",
         GROWTHBOOK_HOST="https://test.growthbook.com",
         GROWTHBOOK_REQUESTS_TIMEOUT=60,
+        GROWTHBOOK_WEBHOOK_SECRET="test-webhook-secret",
         CACHE_KEY_PREFIX="weni_feature_flags",
         FEATURES_CACHE_TTL=60,
         DATABASES={

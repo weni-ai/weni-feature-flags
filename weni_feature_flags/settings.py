@@ -25,6 +25,7 @@ GROWTHBOOK_HOST = get_setting("GROWTHBOOK_HOST", is_required=True)
 GROWTHBOOK_REQUESTS_TIMEOUT = get_setting(
     "GROWTHBOOK_REQUESTS_TIMEOUT", is_required=False, default_value=60
 )
+GROWTHBOOK_WEBHOOK_SECRET = get_setting("GROWTHBOOK_WEBHOOK_SECRET", is_required=True)
 
 
 # Caching
