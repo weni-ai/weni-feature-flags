@@ -19,3 +19,7 @@ class TestAuthentication(TestCase):
         request = Mock(headers={"Secret": "invalid-secret"})
         with self.assertRaises(AuthenticationFailed):
             self.authentication.authenticate(request)
+
+    def test_authenticate_header(self):
+        request = Mock()
+        self.assertEqual(self.authentication.authenticate_header(request), "Growthbook-Secret")
