@@ -31,6 +31,6 @@ def is_feature_active(key: str, user_email: str, project_uuid: UUID) -> bool:
         key,
         {
             "userEmail": user_email,
-            "projectUUID": project_uuid,
+            "projectUUID": str(project_uuid),
         },
     )

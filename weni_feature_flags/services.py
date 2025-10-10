@@ -16,7 +16,7 @@ class FeatureFlagsService:
     def __init__(self, growthbook_client: GrowthBookClient = GrowthBookClient()):
         self.growthbook_client = growthbook_client
 
-    def _get_features_from_cache(self) -> dict:
+    def get_features_from_cache(self) -> dict:
         """
         Get feature flags features from cache.
         """
@@ -34,7 +34,7 @@ class FeatureFlagsService:
 
         return data
 
-    def _save_features_to_cache(self, features: dict):
+    def save_features_to_cache(self, features: dict):
         """
         Save feature flags features to cache.
         """
@@ -44,31 +44,31 @@ class FeatureFlagsService:
             FEATURES_CACHE_TTL,
         )
 
-    def _get_features_db_object(self) -> Optional[FeatureFlagSnapshot]:
+    def get_features_db_object(self) -> Optional[FeatureFlagSnapshot]:
         """
         Get feature flags snapshot from the database.
         """
         return FeatureFlagSnapshot.objects.order_by("created_at").last()
 
-    def _get_features_from_db(self) -> Optional[dict]:
+    def get_features_from_db(self) -> Optional[dict]:
         """
         Get feature flags snapshot's data from the database.
         """
-        obj = self._get_features_db_object()
+        obj = self.get_features_db_object()
 
         return obj.data if obj else None
 
-    def _save_features_to_db(self, data: dict) -> Optional[FeatureFlagSnapshot]:
+    def save_features_to_db(self, data: dict) -> Optional[FeatureFlagSnapshot]:
         """
         Save feature flags snapshot's data to the database.
         """
-        obj = self._get_features_db_object()
+        obj = self.get_features_db_object()
 
         if obj:
             obj.data = data
             obj.save(update_fields=["data"])
         else:
-            FeatureFlagSnapshot.objects.create(data=data)
+            obj = FeatureFlagSnapshot.objects.create(data=data)
 
         return obj
 
@@ -76,10 +76,10 @@ class FeatureFlagsService:
         """
         Get feature flags.
         """
-        if features_from_cache := self._get_features_from_cache():
+        if features_from_cache := self.get_features_from_cache():
             return features_from_cache
 
-        features_from_db = self._get_features_from_db()
+        features_from_db = self.get_features_from_db()
 
         if features_from_db:
             update_feature_flags.delay()
@@ -94,8 +94,8 @@ class FeatureFlagsService:
         """
         features = self.growthbook_client.get_features()
 
-        self._save_features_to_db(features)
-        self._save_features_to_cache(features)
+        self.save_features_to_db(features)
+        self.save_features_to_cache(features)
 
         return features
 
