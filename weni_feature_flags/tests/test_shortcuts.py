@@ -1,6 +1,6 @@
+import uuid
 from unittest import TestCase
 from unittest.mock import Mock, patch
-import uuid
 
 from weni_feature_flags.services import FeatureFlagsService
 from weni_feature_flags.shortcuts import (

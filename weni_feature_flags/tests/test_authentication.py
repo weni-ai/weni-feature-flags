@@ -22,4 +22,6 @@ class TestAuthentication(TestCase):
 
     def test_authenticate_header(self):
         request = Mock()
-        self.assertEqual(self.authentication.authenticate_header(request), "Growthbook-Secret")
+        self.assertEqual(
+            self.authentication.authenticate_header(request), "Growthbook-Secret"
+        )
