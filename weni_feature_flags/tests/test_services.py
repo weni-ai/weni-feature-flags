@@ -1,12 +1,9 @@
+import uuid
 from unittest import TestCase
 from unittest.mock import Mock, patch
-import uuid
-
-from django.core.cache import cache
 
 from weni_feature_flags.integrations.growthbook.clients import GrowthBookClient
 from weni_feature_flags.services import FeatureFlagsService
-
 
 mock_growthbook_client = Mock(spec=GrowthBookClient)
 mock_cache_class = Mock()
@@ -208,7 +205,7 @@ class TestFeatureFlagsService(TestCase):
                         "id": "test",
                         "condition": {
                             "userEmail": {
-                                "$in": ["test2@test.com"], # Email is different
+                                "$in": ["test2@test.com"],  # Email is different
                             },
                         },
                         "force": True,
@@ -282,7 +279,7 @@ class TestFeatureFlagsService(TestCase):
                         "id": "test",
                         "condition": {
                             "userEmail": {
-                                "$in": ["test2@test.com"], # Email is different
+                                "$in": ["test2@test.com"],  # Email is different
                             },
                         },
                         "force": True,
@@ -295,7 +292,7 @@ class TestFeatureFlagsService(TestCase):
             {
                 "projectUUID": project_uuid,
                 "userEmail": "test@test.com",
-            }
+            },
         )
 
         self.assertTrue(is_active)
@@ -305,7 +302,7 @@ class TestFeatureFlagsService(TestCase):
             {
                 "projectUUID": project_uuid,
                 "userEmail": "test@test.com",
-            }
+            },
         )
 
         self.assertFalse(is_active)
