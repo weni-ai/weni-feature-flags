@@ -1,15 +1,12 @@
 import json
-from typing import Optional
+from typing import List, Optional
 
 from django.core.cache import cache
 from growthbook import GrowthBook
 
 from weni_feature_flags.integrations.growthbook.clients import GrowthBookClient
-from weni_feature_flags.integrations.settings import (
-    CACHE_KEY_PREFIX,
-    FEATURES_CACHE_TTL,
-)
 from weni_feature_flags.models import FeatureFlagSnapshot
+from weni_feature_flags.settings import CACHE_KEY_PREFIX, FEATURES_CACHE_TTL
 from weni_feature_flags.tasks import update_feature_flags
 
 CACHE_KEY = f"{CACHE_KEY_PREFIX}:features"
@@ -102,7 +99,7 @@ class FeatureFlagsService:
 
         return features
 
-    def get_active_feature_flags_for_attributes(self, attributes: dict) -> list[str]:
+    def get_active_feature_flags_for_attributes(self, attributes: dict) -> List[str]:
         """
         Get feature flags for attributes.
         """
