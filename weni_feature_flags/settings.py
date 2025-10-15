@@ -21,7 +21,7 @@ DEFAULT_FEATURES_CACHE_TTL = 60  # 1 minute
 
 # GrowthBook
 GROWTHBOOK_CLIENT_KEY = get_setting("GROWTHBOOK_CLIENT_KEY", is_required=True)
-GROWTHBOOK_HOST = get_setting("GROWTHBOOK_HOST", is_required=True)
+GROWTHBOOK_HOST_BASE_URL = get_setting("GROWTHBOOK_HOST_BASE_URL", is_required=True)
 GROWTHBOOK_REQUESTS_TIMEOUT = get_setting(
     "GROWTHBOOK_REQUESTS_TIMEOUT", is_required=False, default_value=60
 )
