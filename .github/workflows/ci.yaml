@@ -27,8 +27,8 @@ jobs:
           poetry config virtualenvs.create false --local
           poetry install
 
-      # - name: Run migrations
-      #   run: python manage.py migrate
+      - name: Run migrations
+        run: python manage.py migrate
 
       - name: run flake8
         run: flake8
@@ -39,8 +39,8 @@ jobs:
       - name: run isort
         run: isort .
 
-      # - name: Run tests
-      #   run: coverage run manage.py test --verbosity=2 --noinput
+      - name: Run tests
+        run: coverage run manage.py test --verbosity=2 --noinput
 
-      # - name: Coverage report
-      #   run: coverage report -m
+      - name: Coverage report
+        run: coverage report -m
