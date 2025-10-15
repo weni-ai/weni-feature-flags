@@ -2,7 +2,7 @@ import requests
 
 from weni_feature_flags.settings import (
     GROWTHBOOK_CLIENT_KEY,
-    GROWTHBOOK_HOST,
+    GROWTHBOOK_HOST_BASE_URL,
     GROWTHBOOK_REQUESTS_TIMEOUT,
 )
 
@@ -14,7 +14,7 @@ class GrowthBookClient:
 
     def __init__(self):
         self.client_key = GROWTHBOOK_CLIENT_KEY
-        self.host = GROWTHBOOK_HOST
+        self.host = GROWTHBOOK_HOST_BASE_URL
         self.timeout = GROWTHBOOK_REQUESTS_TIMEOUT
 
     def get_features(self):

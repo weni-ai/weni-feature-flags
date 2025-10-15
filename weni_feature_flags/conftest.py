@@ -5,7 +5,7 @@ from django.conf import settings
 if not settings.configured:
     settings.configure(
         GROWTHBOOK_CLIENT_KEY="test-client-key",
-        GROWTHBOOK_HOST="https://test.growthbook.com",
+        GROWTHBOOK_HOST_BASE_URL="https://test.growthbook.com",
         GROWTHBOOK_REQUESTS_TIMEOUT=60,
         GROWTHBOOK_WEBHOOK_SECRET="test-webhook-secret",
         CACHE_KEY_PREFIX="weni_feature_flags",
