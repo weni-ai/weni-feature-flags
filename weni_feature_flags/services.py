@@ -4,6 +4,7 @@ from typing import List, Optional
 from django.core.cache import cache
 from growthbook import GrowthBook
 
+from weni_feature_flags.converters import convert_uuids_to_strings
 from weni_feature_flags.integrations.growthbook.clients import GrowthBookClient
 from weni_feature_flags.models import FeatureFlagSnapshot
 from weni_feature_flags.settings import CACHE_KEY_PREFIX, FEATURES_CACHE_TTL
@@ -99,11 +100,16 @@ class FeatureFlagsService:
 
         return features
 
-    def get_active_feature_flags_for_attributes(self, attributes: dict) -> List[str]:
+    def get_active_feature_flags_for_attributes(
+        self, attributes: dict, should_convert_uuids_to_strings: bool = True
+    ) -> List[str]:
         """
         Get feature flags for attributes.
         """
         features = self.get_features()
+
+        if should_convert_uuids_to_strings:
+            attributes = convert_uuids_to_strings(attributes)
 
         gb = GrowthBook(
             attributes=attributes,
@@ -118,11 +124,16 @@ class FeatureFlagsService:
 
         return active_features
 
-    def evaluate_feature_flag_by_attributes(self, key: str, attributes: dict) -> bool:
+    def evaluate_feature_flag_by_attributes(
+        self, key: str, attributes: dict, should_convert_uuids_to_strings: bool = True
+    ) -> bool:
         """
         Evaluate feature flag by attributes.
         """
         features = self.get_features()
+
+        if should_convert_uuids_to_strings:
+            attributes = convert_uuids_to_strings(attributes)
 
         gb = GrowthBook(
             attributes=attributes,

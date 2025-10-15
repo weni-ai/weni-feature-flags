@@ -4,7 +4,9 @@ from weni_feature_flags.services import FeatureFlagsService
 from weni_feature_flags.validators import is_email_valid
 
 
-def is_feature_active_for_attributes(key: str, attributes: dict) -> bool:
+def is_feature_active_for_attributes(
+    key: str, attributes: dict, should_convert_uuids_to_strings: bool = True
+) -> bool:
     """
     Check if a feature is active by its key and attributes.
     """
@@ -13,6 +15,7 @@ def is_feature_active_for_attributes(key: str, attributes: dict) -> bool:
     return features_service.evaluate_feature_flag_by_attributes(
         key=key,
         attributes=attributes,
+        should_convert_uuids_to_strings=should_convert_uuids_to_strings,
     )
 
 
