@@ -14,7 +14,7 @@ class GrowthbookWebhookSecretAuthentication(BaseAuthentication):
         """
         secret = request.headers.get("Secret")
 
-        if secret != settings.GROWTHBOOK_WEBHOOK_SECRET:
+        if not secret or (secret != settings.GROWTHBOOK_WEBHOOK_SECRET):
             raise AuthenticationFailed("Invalid secret")
 
         return (None, None)
