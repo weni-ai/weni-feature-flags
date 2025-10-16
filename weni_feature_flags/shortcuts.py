@@ -19,15 +19,20 @@ def is_feature_active_for_attributes(
     )
 
 
-def is_feature_active(key: str, user_email: str, project_uuid: UUID) -> bool:
+def is_feature_active(key: str, user_email: str, project_uuid: str) -> bool:
     """
     Check if a feature is active by user email and project uuid.
     """
 
     if not isinstance(project_uuid, UUID):
-        raise ValueError("project_uuid must be a valid UUID")
+        try:
+            project_uuid = UUID(project_uuid)
+        except ValueError:
+            raise ValueError("project_uuid must be a valid UUID")
 
-    if not is_email_valid(user_email):
+    try:
+        user_email = is_email_valid(user_email)
+    except ValueError:
         raise ValueError("user_email must be a valid email")
 
     return is_feature_active_for_attributes(
