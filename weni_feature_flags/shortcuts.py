@@ -30,9 +30,7 @@ def is_feature_active(key: str, user_email: str, project_uuid: str) -> bool:
         except ValueError:
             raise ValueError("project_uuid must be a valid UUID")
 
-    try:
-        user_email = is_email_valid(user_email)
-    except ValueError:
+    if not is_email_valid(user_email):
         raise ValueError("user_email must be a valid email")
 
     return is_feature_active_for_attributes(
