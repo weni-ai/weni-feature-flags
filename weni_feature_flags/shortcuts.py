@@ -26,7 +26,7 @@ def is_feature_active(key: str, user_email: str, project_uuid: str) -> bool:
 
     if not isinstance(project_uuid, UUID):
         try:
-            project_uuid = UUID(project_uuid)
+            UUID(project_uuid)
         except ValueError:
             raise ValueError("project_uuid must be a valid UUID")
 
