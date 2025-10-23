@@ -7,7 +7,7 @@ Weni Feature Flags is a Python Library that functions as an abstraction layer be
 ## Requirements
 - **Python**: 3.8+
 - **Django**: 3.2.22+
-- **Django REST Framework**: 3.14.0+
+- **Django REST Framework**: 3.12.0+
 - **Celery**: 5.0+
 
 This project also relies on **Celery** to update feature flags asynchronously.
