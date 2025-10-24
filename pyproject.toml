@@ -12,11 +12,11 @@ skip_glob = ["*/migrations/*"]
 
 [tool.poetry]
 name = "weni-feature-flags"
-version = "1.0.1a0"
+version = "1.0.1a1"
 description = "Weni's feature flags SDK for Python backends"
 authors = ["Kallil Souza dos Santos <kallilsouza@hotmail.com>"]
 readme = "README.md"
-packages = [{ include = "weni" }, { include = "weni_feature_flags" }]
+packages = [{ include = "weni" }]
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0"
