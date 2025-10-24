@@ -1,7 +1,7 @@
 from uuid import UUID
 
-from weni_feature_flags.services import FeatureFlagsService
-from weni_feature_flags.validators import is_email_valid
+from weni.feature_flags.services import FeatureFlagsService
+from weni.feature_flags.validators import is_email_valid
 
 
 def is_feature_active_for_attributes(

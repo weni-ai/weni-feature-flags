@@ -4,11 +4,11 @@ from typing import List, Optional
 from django.core.cache import cache
 from growthbook import GrowthBook
 
-from weni_feature_flags.converters import convert_uuids_to_strings
-from weni_feature_flags.integrations.growthbook.clients import GrowthBookClient
-from weni_feature_flags.models import FeatureFlagSnapshot
-from weni_feature_flags.settings import CACHE_KEY_PREFIX, FEATURES_CACHE_TTL
-from weni_feature_flags.tasks import update_feature_flags
+from weni.feature_flags.converters import convert_uuids_to_strings
+from weni.feature_flags.integrations.growthbook.clients import GrowthBookClient
+from weni.feature_flags.models import FeatureFlagSnapshot
+from weni.feature_flags.settings import CACHE_KEY_PREFIX, FEATURES_CACHE_TTL
+from weni.feature_flags.tasks import update_feature_flags
 
 CACHE_KEY = f"{CACHE_KEY_PREFIX}:features"
 

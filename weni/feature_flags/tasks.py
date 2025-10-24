@@ -6,6 +6,6 @@ def update_feature_flags():
     """
     Update feature flags definitions.
     """
-    from weni_feature_flags.services import FeatureFlagsService
+    from weni.feature_flags.services import FeatureFlagsService
 
     FeatureFlagsService().update_features()

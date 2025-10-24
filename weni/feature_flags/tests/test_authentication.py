@@ -3,8 +3,8 @@ from unittest.mock import Mock
 
 from rest_framework.exceptions import AuthenticationFailed
 
-from weni_feature_flags.authentication import GrowthbookWebhookSecretAuthentication
-from weni_feature_flags.settings import GROWTHBOOK_WEBHOOK_SECRET
+from weni.feature_flags.authentication import GrowthbookWebhookSecretAuthentication
+from weni.feature_flags.settings import GROWTHBOOK_WEBHOOK_SECRET
 
 
 class TestAuthentication(TestCase):

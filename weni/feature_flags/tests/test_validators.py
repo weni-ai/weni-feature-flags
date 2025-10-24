@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from weni_feature_flags.validators import is_email_valid
+from weni.feature_flags.validators import is_email_valid
 
 
 class TestValidators(TestCase):

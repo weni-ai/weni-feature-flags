@@ -2,8 +2,8 @@ import uuid
 from unittest import TestCase
 from unittest.mock import Mock, patch
 
-from weni_feature_flags.integrations.growthbook.clients import GrowthBookClient
-from weni_feature_flags.services import FeatureFlagsService
+from weni.feature_flags.integrations.growthbook.clients import GrowthBookClient
+from weni.feature_flags.services import FeatureFlagsService
 
 mock_growthbook_client = Mock(spec=GrowthBookClient)
 mock_cache_class = Mock()
