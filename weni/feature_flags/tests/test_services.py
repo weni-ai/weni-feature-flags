@@ -11,8 +11,8 @@ mock_cache_class = Mock()
 mock_feature_flag_snapshot = Mock()
 
 
-@patch("weni_feature_flags.services.cache", mock_cache_class)
-@patch("weni_feature_flags.services.FeatureFlagSnapshot", mock_feature_flag_snapshot)
+@patch("weni.feature_flags.services.cache", mock_cache_class)
+@patch("weni.feature_flags.services.FeatureFlagSnapshot", mock_feature_flag_snapshot)
 class TestFeatureFlagsService(TestCase):
     def setUp(self):
         self.service = FeatureFlagsService(growthbook_client=mock_growthbook_client)

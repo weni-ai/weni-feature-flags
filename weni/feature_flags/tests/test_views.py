@@ -12,7 +12,7 @@ mock_update_feature_flags_delay = Mock(spec=update_feature_flags.delay)
 
 
 @patch(
-    "weni_feature_flags.views.update_feature_flags.delay",
+    "weni.feature_flags.views.update_feature_flags.delay",
     mock_update_feature_flags_delay,
 )
 class TestFeatureFlagsWebhookView(TestCase):

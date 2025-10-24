@@ -11,7 +11,7 @@ from weni.feature_flags.shortcuts import (
 mock_service = Mock(spec=FeatureFlagsService)
 
 
-@patch("weni_feature_flags.shortcuts.FeatureFlagsService", return_value=mock_service)
+@patch("weni.feature_flags.shortcuts.FeatureFlagsService", return_value=mock_service)
 class TestShortcuts(TestCase):
     def setUp(self):
         self.mock_service = Mock(spec=FeatureFlagsService)

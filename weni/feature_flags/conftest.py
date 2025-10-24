@@ -19,7 +19,7 @@ if not settings.configured:
         INSTALLED_APPS=[
             "django.contrib.contenttypes",
             "django.contrib.auth",
-            "weni_feature_flags",
+            "weni.feature_flags",
         ],
     )
     django.setup()
