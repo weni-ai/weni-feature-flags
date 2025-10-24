@@ -1,1 +1,0 @@
-# Weni Commons namespace package

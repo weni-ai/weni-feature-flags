@@ -16,7 +16,7 @@ version = "2.0.0"
 description = "Weni's feature flags SDK for Python backends"
 authors = ["Kallil Souza dos Santos <kallilsouza@hotmail.com>"]
 readme = "README.md"
-packages = [{ include = "weni" }]
+packages = [{ include = "weni", from = "." }]
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0"
