@@ -28,7 +28,7 @@ poetry add weni-feature-flags
 
 ## Initial configuration
 
-On your Django project, you should add "weni_feature_flags" to INSTALLED_APPS.
+On your Django project, you should add "weni.feature_flags" to INSTALLED_APPS.
 When testing and deploying you should apply the migrations using:
 
 ```bash
@@ -52,7 +52,7 @@ pip install weni-feature-flags
 # settings.py
 INSTALLED_APPS = [
     # ... other apps
-    'weni_feature_flags',
+    'weni.feature_flags',
 ]
 
 # Environment variables
