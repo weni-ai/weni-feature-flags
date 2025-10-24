@@ -3,8 +3,8 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from weni_feature_flags.authentication import GrowthbookWebhookSecretAuthentication
-from weni_feature_flags.tasks import update_feature_flags
+from weni.feature_flags.authentication import GrowthbookWebhookSecretAuthentication
+from weni.feature_flags.tasks import update_feature_flags
 
 
 class FeatureFlagsWebhookView(APIView):

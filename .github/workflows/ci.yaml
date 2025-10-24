@@ -37,7 +37,7 @@ jobs:
         run: isort .
 
       - name: Run tests
-        run: poetry run coverage run -m pytest weni_feature_flags --verbosity=2
+        run: poetry run coverage run -m pytest weni --verbosity=2
 
       - name: Coverage report
         run: poetry run coverage report -m

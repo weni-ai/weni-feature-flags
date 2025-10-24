@@ -28,7 +28,7 @@ poetry add weni-feature-flags
 
 ## Initial configuration
 
-On your Django project, you should add "weni_feature_flags" to INSTALLED_APPS.
+On your Django project, you should add "weni.feature_flags" to INSTALLED_APPS.
 When testing and deploying you should apply the migrations using:
 
 ```bash
@@ -52,7 +52,7 @@ pip install weni-feature-flags
 # settings.py
 INSTALLED_APPS = [
     # ... other apps
-    'weni_feature_flags',
+    'weni.feature_flags',
 ]
 
 # Environment variables
@@ -67,7 +67,7 @@ python manage.py migrate
 
 4. **Use in your code**:
 ```python
-from weni_feature_flags.shortcuts import is_feature_active
+from weni.feature_flags.shortcuts import is_feature_active
 
 # Check if a feature is active for a user
 if is_feature_active("new-dashboard", "user@example.com", "project-uuid"):
@@ -90,7 +90,7 @@ first import the webhook view and configure it in your Django project's URLs
 
 ```python
 from django.urls import path
-from weni_feature_flags.views import FeatureFlagsWebhookView
+from weni.feature_flags.views import FeatureFlagsWebhookView
 
 urlpatterns = [
     path('webhooks/feature-flags/', FeatureFlagsWebhookView.as_view(), name='feature-flags-webhook'),
@@ -114,7 +114,7 @@ You should select the events "feature.created", "feature.updated" and "feature.d
 ### Using the Service Class
 You can import and use the whole feature flags service like this:
 ```python
-from weni_feature_flags.services import FeatureFlagsService
+from weni.feature_flags.services import FeatureFlagsService
 
 service = FeatureFlagsService()
 
@@ -141,7 +141,7 @@ is_active = service.evaluate_feature_flag_by_attributes(
 If you only really need to check whether a user and project have access to a feature, you can use shortcuts:
 
 ```python
-from weni_feature_flags.shortcuts import is_feature_active, is_feature_active_for_attributes
+from weni.feature_flags.shortcuts import is_feature_active, is_feature_active_for_attributes
 ```
 
 ### Using Shortcuts

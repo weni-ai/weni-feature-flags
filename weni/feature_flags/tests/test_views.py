@@ -4,15 +4,15 @@ from django.test import TestCase
 from django.test.client import RequestFactory
 from rest_framework import status
 
-from weni_feature_flags.settings import GROWTHBOOK_WEBHOOK_SECRET
-from weni_feature_flags.tasks import update_feature_flags
-from weni_feature_flags.views import FeatureFlagsWebhookView
+from weni.feature_flags.settings import GROWTHBOOK_WEBHOOK_SECRET
+from weni.feature_flags.tasks import update_feature_flags
+from weni.feature_flags.views import FeatureFlagsWebhookView
 
 mock_update_feature_flags_delay = Mock(spec=update_feature_flags.delay)
 
 
 @patch(
-    "weni_feature_flags.views.update_feature_flags.delay",
+    "weni.feature_flags.views.update_feature_flags.delay",
     mock_update_feature_flags_delay,
 )
 class TestFeatureFlagsWebhookView(TestCase):

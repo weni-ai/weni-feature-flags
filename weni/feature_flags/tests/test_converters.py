@@ -1,7 +1,7 @@
 import uuid
 from unittest import TestCase
 
-from weni_feature_flags.converters import convert_uuids_to_strings
+from weni.feature_flags.converters import convert_uuids_to_strings
 
 
 class TestConverters(TestCase):
