@@ -95,12 +95,12 @@ class FeatureFlagsService:
 
         return self.update_features()
 
-    def update_features(self):
+    def update_features(self, force: bool = False):
         """
         Update feature flags.
         """
-        if cache.get(COOLDOWN_CACHE_KEY):
-            # This is a safeguard to prevent the update_features task from being called too often.
+        if cache.get(COOLDOWN_CACHE_KEY) and not force:
+            # This is a safeguard to prevent the update_features method from being called too often.
             logger.info("Features update cooldown is in effect. Skipping update.")
             return
 
