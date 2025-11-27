@@ -18,6 +18,7 @@ def get_setting(name: str, is_required: bool = False, default_value: Any = None)
 
 # Default
 DEFAULT_FEATURES_CACHE_TTL = 60  # 1 minute
+DEFAULT_FEATURES_UPDATE_COOLDOWN_TTL = 30  # 30 seconds
 
 # GrowthBook
 GROWTHBOOK_CLIENT_KEY = get_setting("GROWTHBOOK_CLIENT_KEY", is_required=True)
@@ -36,4 +37,9 @@ FEATURES_CACHE_TTL = get_setting(
     "FEATURES_CACHE_TTL",
     is_required=False,
     default_value=DEFAULT_FEATURES_CACHE_TTL,
+)
+FEATURES_UPDATE_COOLDOWN_TTL = get_setting(
+    "FEATURES_UPDATE_COOLDOWN_TTL",
+    is_required=False,
+    default_value=DEFAULT_FEATURES_UPDATE_COOLDOWN_TTL,
 )

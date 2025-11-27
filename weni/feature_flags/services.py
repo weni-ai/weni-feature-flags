@@ -1,4 +1,5 @@
 import json
+import logging
 from typing import List, Optional
 
 from django.core.cache import cache
@@ -7,10 +8,15 @@ from growthbook import GrowthBook
 from weni.feature_flags.converters import convert_uuids_to_strings
 from weni.feature_flags.integrations.growthbook.clients import GrowthBookClient
 from weni.feature_flags.models import FeatureFlagSnapshot
-from weni.feature_flags.settings import CACHE_KEY_PREFIX, FEATURES_CACHE_TTL
+from weni.feature_flags.settings import CACHE_KEY_PREFIX, FEATURES_CACHE_TTL, FEATURES_UPDATE_COOLDOWN_TTL
 from weni.feature_flags.tasks import update_feature_flags
 
 CACHE_KEY = f"{CACHE_KEY_PREFIX}:features"
+COOLDOWN_CACHE_KEY = f"{CACHE_KEY_PREFIX}:cooldown_is_in_effect"
+COOLDOWN_CACHE_TTL = FEATURES_UPDATE_COOLDOWN_TTL
+
+
+logger = logging.getLogger(__name__)
 
 
 class FeatureFlagsService:
@@ -89,10 +95,16 @@ class FeatureFlagsService:
 
         return self.update_features()
 
-    def update_features(self):
+    def update_features(self, force: bool = False):
         """
         Update feature flags.
         """
+        if cache.get(COOLDOWN_CACHE_KEY) and not force:
+            # This is a safeguard to prevent the update_features method from being called too often.
+            logger.info("Features update cooldown is in effect. Skipping update.")
+            return
+
+        cache.set(COOLDOWN_CACHE_KEY, True, COOLDOWN_CACHE_TTL)
         features = self.growthbook_client.get_features()
 
         self.save_features_to_db(features)

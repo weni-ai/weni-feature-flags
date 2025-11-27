@@ -11,6 +11,6 @@ class FeatureFlagsWebhookView(APIView):
     authentication_classes = [GrowthbookWebhookSecretAuthentication]
 
     def post(self, request: Request) -> Response:
-        update_feature_flags.delay()
+        update_feature_flags.delay(force=True)
 
         return Response(status=status.HTTP_204_NO_CONTENT)

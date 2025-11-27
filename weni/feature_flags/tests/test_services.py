@@ -159,8 +159,8 @@ class TestFeatureFlagsService(TestCase):
 
         self.assertIsNotNone(features)
         mock_growthbook_client.get_features.assert_called_once()
-        mock_cache_class.get.assert_called_once()
-        mock_cache_class.set.assert_called_once()
+        mock_cache_class.get.assert_called()
+        mock_cache_class.set.assert_called()
 
     def test_get_features_when_the_features_are_from_the_cache(self):
         mock_cache_class.get.return_value = {
@@ -179,7 +179,7 @@ class TestFeatureFlagsService(TestCase):
         self.service.update_features()
         mock_growthbook_client.get_features.assert_called_once()
         mock_feature_flag_snapshot.objects.create.assert_called_once()
-        mock_cache_class.set.assert_called_once()
+        mock_cache_class.set.assert_called()
 
     def test_get_active_feature_flags_for_attributes(self):
         project_uuid = str(uuid.uuid4())
