@@ -24,7 +24,7 @@ django = ">=3.2.22,<6.0"
 requests = ">=2.25.0,<3.0"
 djangorestframework = ">=3.12.0,<4.0"
 growthbook = ">=1.0.0,<2.0"
-django-redis = ">=4.0.0,<6.0"
+django-redis = ">=4.0.0,<=6.0"
 celery = ">=5.0.0,<6.0"
 
 [tool.poetry.group.dev.dependencies]
