@@ -51,8 +51,9 @@ class TestShortcuts(TestCase):
         self.assertFalse(is_feature_active("test", "test@test.com", uuid.uuid4()))
 
     def test_is_feature_active_when_the_key_is_not_provided(self, mock_feature_flags_svc):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ValueError) as context:
             is_feature_active(None, "test@test.com", uuid.uuid4())
+        self.assertEqual(str(context.exception), "key must be a non-empty string")
 
     def test_is_feature_active_with_project_uuid_and_without_user_email(self, mock_feature_flags_svc):
         mock_service.evaluate_feature_flag_by_attributes.return_value = True
