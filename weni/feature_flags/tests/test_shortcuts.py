@@ -69,3 +69,8 @@ class TestShortcuts(TestCase):
     def test_is_feature_active_with_invalid_user_email(self, mock_feature_flags_svc):
         with self.assertRaises(ValueError):
             is_feature_active("test", "invalid-email", uuid.uuid4())
+
+    def test_is_feature_active_with_no_project_uuid_and_no_user_email(self, mock_feature_flags_svc):
+        with self.assertRaises(ValueError) as context:
+            is_feature_active("test", None, None)
+        self.assertEqual(str(context.exception), "at least one of project_uuid or user_email must be provided")
