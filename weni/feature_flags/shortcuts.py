@@ -1,3 +1,4 @@
+from typing import Optional
 from uuid import UUID
 
 from weni.feature_flags.services import FeatureFlagsService
@@ -19,24 +20,34 @@ def is_feature_active_for_attributes(
     )
 
 
-def is_feature_active(key: str, user_email: str, project_uuid: str) -> bool:
+def is_feature_active(key: str, user_email: Optional[str], project_uuid: Optional[str]) -> bool:
     """
-    Check if a feature is active by user email and project uuid.
+    Check if a feature is active by user email and/or project UUID.
     """
+    if not key:
+        raise ValueError("key must be a non-empty string")
 
-    if not isinstance(project_uuid, UUID):
-        try:
-            UUID(project_uuid)
-        except ValueError:
-            raise ValueError("project_uuid must be a valid UUID")
+    attributes = {}
 
-    if not is_email_valid(user_email):
-        raise ValueError("user_email must be a valid email")
+    if project_uuid:
+        if not isinstance(project_uuid, UUID):
+            try:
+                UUID(project_uuid)
+            except ValueError:
+                raise ValueError("project_uuid must be a valid UUID")
+
+        attributes["projectUUID"] = str(project_uuid)
+
+    if user_email:
+        if not is_email_valid(user_email):
+            raise ValueError("user_email must be a valid email")
+
+        attributes["userEmail"] = user_email
+
+    if not attributes:
+        raise ValueError("at least one of project_uuid or user_email must be provided")
 
     return is_feature_active_for_attributes(
         key,
-        {
-            "userEmail": user_email,
-            "projectUUID": str(project_uuid),
-        },
+        attributes,
     )
