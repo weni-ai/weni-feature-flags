@@ -111,7 +111,7 @@ class FeatureFlagsService:
 
         self.save_features_to_db(features)
         logger.info("[update_features] Feature flags saved to database")
-        
+
         self.save_features_to_cache(features)
         logger.info("[update_features] Feature flags saved to cache")
         return features

@@ -1,5 +1,5 @@
 from unittest import TestCase
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 from weni.feature_flags.apps import PERIODIC_TASK_NAME, WeniFeatureFlagsConfig
 
