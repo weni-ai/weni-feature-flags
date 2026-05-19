@@ -12,14 +12,14 @@ class TestAppReady(TestCase):
         return config
 
     @patch("weni.feature_flags.apps.WeniFeatureFlagsConfig._setup_periodic_task")
-    @patch("weni.feature_flags.settings.USE_SCHEDULED_UPDATES", True)
+    @patch("weni.feature_flags.settings.FEATURE_FLAGS_USE_SCHEDULED_UPDATES", True)
     def test_ready_sets_up_periodic_task_when_enabled(self, mock_setup):
         config = self._get_app_config()
         config.ready()
         mock_setup.assert_called_once()
 
     @patch("weni.feature_flags.apps.WeniFeatureFlagsConfig._setup_periodic_task")
-    @patch("weni.feature_flags.settings.USE_SCHEDULED_UPDATES", False)
+    @patch("weni.feature_flags.settings.FEATURE_FLAGS_USE_SCHEDULED_UPDATES", False)
     def test_ready_does_nothing_when_disabled(self, mock_setup):
         config = self._get_app_config()
         config.ready()
@@ -33,7 +33,7 @@ class TestSetupPeriodicTask(TestCase):
         config.label = "weni_feature_flags"
         return config
 
-    @patch("weni.feature_flags.settings.SCHEDULED_UPDATE_INTERVAL", 90)
+    @patch("weni.feature_flags.settings.FEATURE_FLAGS_SCHEDULED_UPDATE_INTERVAL", 90)
     @patch("celery.current_app")
     def test_setup_registers_beat_schedule_entry(self, mock_app):
         mock_app.conf.beat_schedule = {}
@@ -49,7 +49,7 @@ class TestSetupPeriodicTask(TestCase):
         )
         self.assertEqual(entry["schedule"], 90)
 
-    @patch("weni.feature_flags.settings.SCHEDULED_UPDATE_INTERVAL", 60)
+    @patch("weni.feature_flags.settings.FEATURE_FLAGS_SCHEDULED_UPDATE_INTERVAL", 60)
     @patch("celery.current_app")
     def test_setup_preserves_existing_beat_schedule_entries(self, mock_app):
         mock_app.conf.beat_schedule = {
@@ -62,7 +62,7 @@ class TestSetupPeriodicTask(TestCase):
         self.assertIn("existing-task", mock_app.conf.beat_schedule)
         self.assertIn(PERIODIC_TASK_NAME, mock_app.conf.beat_schedule)
 
-    @patch("weni.feature_flags.settings.SCHEDULED_UPDATE_INTERVAL", 60)
+    @patch("weni.feature_flags.settings.FEATURE_FLAGS_SCHEDULED_UPDATE_INTERVAL", 60)
     @patch("celery.current_app")
     def test_setup_handles_missing_beat_schedule(self, mock_app):
         mock_app.conf.beat_schedule = None

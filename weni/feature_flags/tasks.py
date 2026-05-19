@@ -23,7 +23,7 @@ def scheduled_update_feature_flags():
     """
     Periodically update feature flags, bypassing the cooldown.
     Intended to be registered as a periodic task via django-celery-beat
-    when USE_SCHEDULED_UPDATES is enabled.
+    when FEATURE_FLAGS_USE_SCHEDULED_UPDATES is enabled.
     """
     from weni.feature_flags.services import FeatureFlagsService
     logger.info("[scheduled_update_feature_flags] Starting feature flags update")

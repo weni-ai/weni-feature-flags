@@ -46,13 +46,13 @@ FEATURES_UPDATE_COOLDOWN_TTL = get_setting(
 )
 
 # Scheduled updates
-USE_SCHEDULED_UPDATES = get_setting(
-    "USE_SCHEDULED_UPDATES",
+FEATURE_FLAGS_USE_SCHEDULED_UPDATES = get_setting(
+    "FEATURE_FLAGS_USE_SCHEDULED_UPDATES",
     is_required=False,
     default_value=False,
 )
-SCHEDULED_UPDATE_INTERVAL = get_setting(
-    "SCHEDULED_UPDATE_INTERVAL",
+FEATURE_FLAGS_SCHEDULED_UPDATE_INTERVAL = get_setting(
+    "FEATURE_FLAGS_SCHEDULED_UPDATE_INTERVAL",
     is_required=False,
     default_value=DEFAULT_SCHEDULED_UPDATE_INTERVAL,
 )
