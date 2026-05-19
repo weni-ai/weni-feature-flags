@@ -71,3 +71,28 @@ class TestSetupPeriodicTask(TestCase):
         config._setup_periodic_task()
 
         self.assertIn(PERIODIC_TASK_NAME, mock_app.conf.beat_schedule)
+
+    @patch("weni.feature_flags.settings.FEATURES_CACHE_TTL", 60)
+    @patch("weni.feature_flags.settings.FEATURE_FLAGS_SCHEDULED_UPDATE_INTERVAL", 120)
+    @patch("celery.current_app")
+    def test_setup_warns_when_interval_exceeds_cache_ttl(self, mock_app):
+        mock_app.conf.beat_schedule = {}
+        config = self._get_app_config()
+
+        with self.assertLogs("weni.feature_flags.apps", level="WARNING") as cm:
+            config._setup_periodic_task()
+
+        self.assertTrue(any("stale" in msg for msg in cm.output))
+        self.assertIn(PERIODIC_TASK_NAME, mock_app.conf.beat_schedule)
+
+    @patch("weni.feature_flags.settings.FEATURES_CACHE_TTL", 120)
+    @patch("weni.feature_flags.settings.FEATURE_FLAGS_SCHEDULED_UPDATE_INTERVAL", 60)
+    @patch("celery.current_app")
+    def test_setup_does_not_warn_when_interval_below_cache_ttl(self, mock_app):
+        mock_app.conf.beat_schedule = {}
+        config = self._get_app_config()
+
+        with patch("weni.feature_flags.apps.logger") as mock_logger:
+            config._setup_periodic_task()
+
+        mock_logger.warning.assert_not_called()
