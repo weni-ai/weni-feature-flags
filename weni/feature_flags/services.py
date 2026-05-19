@@ -99,17 +99,21 @@ class FeatureFlagsService:
         """
         Update feature flags.
         """
+        logger.info("[update_features] Starting feature flags update with force=%s", force)
         if cache.get(COOLDOWN_CACHE_KEY) and not force:
             # This is a safeguard to prevent the update_features method from being called too often.
-            logger.info("Features update cooldown is in effect. Skipping update.")
+            logger.info("[update_features] Features update cooldown is in effect. Skipping update.")
             return
 
         cache.set(COOLDOWN_CACHE_KEY, True, COOLDOWN_CACHE_TTL)
         features = self.growthbook_client.get_features()
+        logger.info("[update_features] Feature flags fetched from GrowthBook")
 
         self.save_features_to_db(features)
+        logger.info("[update_features] Feature flags saved to database")
+        
         self.save_features_to_cache(features)
-
+        logger.info("[update_features] Feature flags saved to cache")
         return features
 
     def get_active_feature_flags_for_attributes(
