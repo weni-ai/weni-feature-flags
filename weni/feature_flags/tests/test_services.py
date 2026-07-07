@@ -181,6 +181,23 @@ class TestFeatureFlagsService(TestCase):
         mock_feature_flag_snapshot.objects.create.assert_called_once()
         mock_cache_class.set.assert_called()
 
+    def test_update_features_skips_when_cooldown_is_active(self):
+        mock_cache_class.get.return_value = True
+        result = self.service.update_features(force=False)
+
+        self.assertIsNone(result)
+        mock_growthbook_client.get_features.assert_not_called()
+
+    def test_update_features_bypasses_cooldown_when_forced(self):
+        mock_cache_class.get.return_value = True
+        mock_growthbook_client.get_features.return_value = {"test": {"on": True}}
+
+        result = self.service.update_features(force=True)
+
+        self.assertIsNotNone(result)
+        mock_growthbook_client.get_features.assert_called_once()
+        mock_feature_flag_snapshot.objects.create.assert_called_once()
+
     def test_get_active_feature_flags_for_attributes(self):
         project_uuid = str(uuid.uuid4())
         mock_growthbook_client.get_features.return_value = {

@@ -17,8 +17,9 @@ def get_setting(name: str, is_required: bool = False, default_value: Any = None)
 
 
 # Default
-DEFAULT_FEATURES_CACHE_TTL = 60  # 1 minute
+DEFAULT_FEATURES_CACHE_TTL = 120  # 2 minutes
 DEFAULT_FEATURES_UPDATE_COOLDOWN_TTL = 30  # 30 seconds
+DEFAULT_SCHEDULED_UPDATE_INTERVAL = 60  # 1 minute
 
 # GrowthBook
 GROWTHBOOK_CLIENT_KEY = get_setting("GROWTHBOOK_CLIENT_KEY", is_required=True)
@@ -42,4 +43,16 @@ FEATURES_UPDATE_COOLDOWN_TTL = get_setting(
     "FEATURES_UPDATE_COOLDOWN_TTL",
     is_required=False,
     default_value=DEFAULT_FEATURES_UPDATE_COOLDOWN_TTL,
+)
+
+# Scheduled updates
+FEATURE_FLAGS_USE_SCHEDULED_UPDATES = get_setting(
+    "FEATURE_FLAGS_USE_SCHEDULED_UPDATES",
+    is_required=False,
+    default_value=False,
+)
+FEATURE_FLAGS_SCHEDULED_UPDATE_INTERVAL = get_setting(
+    "FEATURE_FLAGS_SCHEDULED_UPDATE_INTERVAL",
+    is_required=False,
+    default_value=DEFAULT_SCHEDULED_UPDATE_INTERVAL,
 )
